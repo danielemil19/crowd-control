@@ -4,9 +4,9 @@ import pandas as pd
 from pyzbar.pyzbar import decode
 
 
-def scan():
+def scan(display):
     def decoder(image):
-        gray_img = cv2.cvtColor(image,0)
+        gray_img = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
         code = decode(gray_img)
     
         for obj in code:
@@ -27,7 +27,7 @@ def scan():
 
     saved_data = ''
 
-    reqnum = 10
+    reqnum = 1
     tries = 0
 
     cap = cv2.VideoCapture(0)
@@ -35,7 +35,8 @@ def scan():
         ret, frame = cap.read()
         code = decoder(frame)
         
-        cv2.imshow('Image', frame)
+        if display:
+            cv2.imshow('Image', frame)
             
         if code and saved_data == code[0].data.decode("utf-8"):
             print("Confirming Barcode...")
@@ -75,5 +76,3 @@ def scan():
         print('Unsupported Type:', codeType)
 
     return valid
-
-scan()
