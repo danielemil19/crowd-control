@@ -1,5 +1,6 @@
 from gpiozero import Button,Buzzer,RGBLED
 
+# Global variables for sensors and modules
 def init():
 	global leftflag
 	global rightflag
@@ -13,3 +14,4 @@ def init():
 	setcount = False
 	count = 0
 	maxcount = 10
+	

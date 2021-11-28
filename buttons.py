@@ -2,12 +2,13 @@ from gpiozero import Button,Buzzer,RGBLED
 from colorzero import Color
 
 
-#Buttons
+#Buttons init
 buttonUp=Button(14)
 buttonDw= Button(15)
 buttonSet= Button(18)
 buttonCam= Button(27)
 
+# Increases the second digit of maxcount if in set mode
 def buttonpressUp():
     import modules
     import flags
@@ -17,6 +18,7 @@ def buttonpressUp():
             flags.maxcount %= 10
         modules.displaynum(flags.maxcount)
 
+# Increases the first digit of maxcount if in set mode
 def buttonpressDw():
     import flags
     import modules
@@ -28,6 +30,8 @@ def buttonpressDw():
         
         modules.displaynum(flags.maxcount)
 
+# Set mode to true if set button is held
+# Display maxcount in 7 segment
 def buttonholdSet():
     import flags
     import modules
@@ -35,15 +39,19 @@ def buttonholdSet():
     flags.setcount = True
     modules.displaynum(flags.maxcount)
 
+# Set mode to false if set button is pressed
+# Display count in 7 segment
 def buttonpressSet():
     import flags
     import modules
-    if flags.setcounter:
+    if flags.setcount:
         modules.buzzer.beep(0.1,0,1, True)
         flags.setcount = False
         modules.displaynum(flags.count)
     
-
+# Turns on cam scanner for x seconds
+# If a valid ID was given, sets valid to true
+# If at max capacity or invalid ID was given, buzzer beeps
 def buttonpressCam():
     from BarcodeScan.scan import scan
     from colorzero import Color
@@ -53,7 +61,7 @@ def buttonpressCam():
     modules.led.color = Color("purple")
     
     if flags.count < flags.maxcount:
-        flags.valid = scan(True)
+        flags.valid = scan(True, 30)
     else:
         flags.valid = False
     
@@ -64,12 +72,10 @@ def buttonpressCam():
         modules.led.color = Color("green")
 
 
-
+# Putting lambda functions to their interrupts
 buttonUp.when_pressed = buttonpressUp
 buttonDw.when_pressed = buttonpressDw
-buttonSet.hold_time = 1
+buttonSet.hold_time = 2
 buttonSet.when_held = buttonholdSet
 buttonSet.when_pressed = buttonpressSet
 buttonCam.when_pressed = buttonpressCam
-
-#Buzzer

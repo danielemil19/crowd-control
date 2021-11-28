@@ -1,6 +1,7 @@
 from gpiozero import Buzzer,RGBLED, LEDCharDisplay, LEDMultiCharDisplay
 from colorzero import Color
 
+# Initializes 7 segment, buzzer, and RGBLED and makes them global
 def init():
     global mchardisplay
     global buzzer
@@ -13,7 +14,9 @@ def init():
     
     led = RGBLED(19,13,6)
     led.color = Color("blue")
-    
+
+# Displays input number with a period to avoid bug
+# INPUT: int:num -> integer to display
 def displaynum(num):
     temp = list(str(num))
     temp[-1] += '.'

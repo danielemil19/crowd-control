@@ -2,10 +2,19 @@ import cv2
 import numpy as np
 import pandas as pd
 from pyzbar.pyzbar import decode
+import time as time
 
-
-def scan(display):
+# Turns on camera and scans for a barcode or QRcode
+# INPUTS: bool:display -> if True, wil display camera feed
+#         int:maxtime -> timeout for function
+# OUTPUTS: bool -> If scanned code was valid
+def scan(display, maxtime):
+    
+    # Finds the barcode or QRcode and decodes it
+    # INPUTS: img:image -> image to decode
+    # OUTSPUTS: str[] -> barcode or QRcode decoded data
     def decoder(image):
+        #grayscales image for faster processing
         gray_img = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
         code = decode(gray_img)
     
@@ -31,10 +40,12 @@ def scan(display):
     tries = 0
 
     cap = cv2.VideoCapture(0)
-    while True:
+    timer = time.time()
+    while timer+maxtime >= time.time():
         ret, frame = cap.read()
         code = decoder(frame)
         
+        # Disable display when not needed to save cycles
         if display:
             cv2.imshow('Image', frame)
             
@@ -54,7 +65,9 @@ def scan(display):
     codeData = code[0].data.decode("utf-8")
     codeType = code[0].type
     valid = False
-        
+    
+    # When data is decoded and it is a barcode,
+    # we check if that student is vaccinated in the csv
     if codeType == 'CODE39':
         print("Checking validity...")
         df = pd.read_csv('check.csv')
@@ -67,6 +80,8 @@ def scan(display):
         else:
             print("Valid Barcode")
             valid = True
+            
+    # If its barcode we assume a big one is a valid VacuID
     elif codeType == 'QRCODE':
         print(len(codeData))
         if len(codeData) > 1000:
