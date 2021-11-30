@@ -9,6 +9,7 @@ def init():
     chardisplay = LEDCharDisplay(4, 17, 22, 10, 9, 11, 0, dp=5, active_high=False)
     mchardisplay = LEDMultiCharDisplay(chardisplay, 2, 3, active_high=False)
     mchardisplay.plex_delay = 0.007
+    displaynum(0)
     buzzer = Buzzer(25)
     buzzer.off()
     

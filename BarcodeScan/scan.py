@@ -1,4 +1,4 @@
-import cv2
+import cv2 as cv2
 import numpy as np
 import pandas as pd
 from pyzbar.pyzbar import decode
@@ -41,7 +41,9 @@ def scan(display, maxtime):
 
     cap = cv2.VideoCapture(0)
     timer = time.time()
-    while timer+maxtime >= time.time():
+    while True:
+        if timer+maxtime <= time.time():
+            return False
         ret, frame = cap.read()
         code = decoder(frame)
         

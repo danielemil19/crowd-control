@@ -12,10 +12,12 @@ modules.init()
 #has to be called after modules init or potential crash
 import buttons
 import PIRSensors.PIRSensors
+
 from BarcodeScan.scan import scan
 print("Done")
+modules.buzzer.beep(0.1,0,1,True)
 
 # Whole program works with interrupts and threads
 # so sleep main one infinitely
 while True:
-    sleep(100)
+    ""

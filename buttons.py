@@ -3,13 +3,13 @@ from colorzero import Color
 
 
 #Buttons init
-buttonUp=Button(14)
-buttonDw= Button(15)
+buttonLeft=Button(14)
+buttonRight= Button(15)
 buttonSet= Button(18)
 buttonCam= Button(27)
 
 # Increases the second digit of maxcount if in set mode
-def buttonpressUp():
+def buttonpressLeft():
     import modules
     import flags
     if flags.setcount:
@@ -19,7 +19,7 @@ def buttonpressUp():
         modules.displaynum(flags.maxcount)
 
 # Increases the first digit of maxcount if in set mode
-def buttonpressDw():
+def buttonpressRight():
     import flags
     import modules
     if flags.setcount:
@@ -48,6 +48,10 @@ def buttonpressSet():
         modules.buzzer.beep(0.1,0,1, True)
         flags.setcount = False
         modules.displaynum(flags.count)
+        if flags.count < flags.maxcount:
+            modules.led.color = Color("red")
+        else:
+            modules.led.color = Color("blue")
     
 # Turns on cam scanner for x seconds
 # If a valid ID was given, sets valid to true
@@ -57,24 +61,28 @@ def buttonpressCam():
     from colorzero import Color
     import flags
     import modules
-    
-    modules.led.color = Color("purple")
-    
-    if flags.count < flags.maxcount:
-        flags.valid = scan(True, 30)
-    else:
-        flags.valid = False
-    
-    if not flags.valid:
-        modules.buzzer.beep(0.1,0.1,3, True)
-    if flags.valid:
-        modules.buzzer.beep(0.1,0,1, True)
-        modules.led.color = Color("green")
+    if not flags.setcount:
+        modules.led.color = Color("purple")
+        
+        if flags.count < flags.maxcount:
+            flags.valid = scan(False, 30)
+        else:
+            flags.valid = False
+        
+        if not flags.valid:
+            modules.buzzer.beep(0.1,0.1,3, True)
+            if flags.count < flags.maxcount:
+                modules.led.color = Color("red")
+            else:
+                modules.led.color = Color("blue")
+        if flags.valid:
+            modules.buzzer.beep(0.1,0,1, True)
+            modules.led.color = Color("green")
 
 
 # Putting lambda functions to their interrupts
-buttonUp.when_pressed = buttonpressUp
-buttonDw.when_pressed = buttonpressDw
+buttonLeft.when_pressed = buttonpressLeft
+buttonRight.when_pressed = buttonpressRight
 buttonSet.hold_time = 2
 buttonSet.when_held = buttonholdSet
 buttonSet.when_pressed = buttonpressSet
