@@ -6,5 +6,5 @@
 ##### Team members:
 - [Adrian Soto](https://github.com/soyZambo)
 - [Daniel Hernandez](https://github.com/danielemil19)
-- [Hector Rodriguez](https://github.com/HRiivera)
+- [Hector Rivera](https://github.com/HRiivera)
 - [Jose Lopez](https://github.com/JoseLopez100)
