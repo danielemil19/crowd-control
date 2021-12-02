@@ -71,7 +71,7 @@ def buttonpressCam():
         
         if not flags.valid:
             modules.buzzer.beep(0.1,0.1,3, True)
-            if flags.count < flags.maxcount:
+            if flags.count >= flags.maxcount:
                 modules.led.color = Color("red")
             else:
                 modules.led.color = Color("blue")
