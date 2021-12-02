@@ -4,7 +4,7 @@
 #### > A system to maintain safe occupancy in enclosed rooms
 
 ##### Team members:
-- [Adrian Soto](adrian.soto1@upr.edu)
-- [Daniel Hernandez](daniel.hernandez5@upr.edu)
-- [Hector Rodriguez](hector.rivera84@upr.edu)
-- [Jose Lopez](jose.lopez100@upr.edu)
+- [Adrian Soto](https://github.com/soyZambo)
+- [Daniel Hernandez](https://github.com/danielemil19)
+- [Hector Rodriguez](https://github.com/HRiivera)
+- [Jose Lopez](https://github.com/JoseLopez100)
